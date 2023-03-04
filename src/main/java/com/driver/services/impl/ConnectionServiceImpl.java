@@ -27,7 +27,8 @@ public class ConnectionServiceImpl implements ConnectionService {
         if(user.getMaskedIp()!=null){
             throw new Exception("Already connected");
         }
-        else if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
+
+        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
             return user;
         }
         else {
@@ -36,7 +37,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             }
 
             List<ServiceProvider> serviceProviderList = user.getServiceProviderList();
-            int a = Integer.MAX_VALUE;
+            int max = Integer.MAX_VALUE;
             ServiceProvider serviceProvider = null;
             Country country =null;
 
@@ -46,8 +47,8 @@ public class ConnectionServiceImpl implements ConnectionService {
 
                 for (Country country1: countryList){
 
-                    if(countryName.equalsIgnoreCase(country1.getCountryName().toString()) && a > serviceProvider1.getId() ){
-                        a=serviceProvider1.getId();
+                    if(countryName.equalsIgnoreCase(country1.getCountryName().toString()) && max > serviceProvider1.getId() ){
+                        max=serviceProvider1.getId();
                         serviceProvider=serviceProvider1;
                         country=country1;
                     }
