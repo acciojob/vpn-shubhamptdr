@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             }
 
             country.setUser(user);
-            user.setCountry(country);
+            user.setOriginalCountry(country);
 
             StringBuilder sb = new StringBuilder();
             sb.append(country.getCode()).append(".").append(userRepository3.save(user).getId());

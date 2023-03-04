@@ -29,7 +29,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             throw new Exception("Already connected");
         }
 
-        if(countryName.equalsIgnoreCase(user.getCountry().getCountryName().toCode())){
+        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toCode())){
             return user;
         }
         else {
@@ -103,7 +103,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             String str = user1.getMaskedIp();
             String countryCode = str.substring(0,3);
 
-            if(countryCode.equals(user.getCountry().getCode()))
+            if(countryCode.equals(user.getOriginalCountry().getCode()))
                 return user;
             else {
                 String countryName = "";
@@ -139,11 +139,11 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
         else{
 
-            if(user1.getCountry().equals(user.getCountry())){
+            if(user1.getOriginalCountry().equals(user.getOriginalCountry())){
                 return user;
             }
 
-            String countryName = user1.getCountry().getCountryName().toString();
+            String countryName = user1.getOriginalCountry().getCountryName().toString();
 
             User user2 =  connect(senderId,countryName);
             if (user2.getConnected()){
