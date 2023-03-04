@@ -107,28 +107,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             if(countryCode.equals(user.getOriginalCountry().getCode()))
                 return user;
             else {
-                String countryName = "";
-
-                if (countryCode.equalsIgnoreCase(CountryName.JPN.toCode())){
-                    countryName = CountryName.JPN.toString();
-                }
-
-
-                if (countryCode.equalsIgnoreCase(CountryName.AUS.toCode())){
-                    countryName = CountryName.AUS.toString();
-                }
-
-                if (countryCode.equalsIgnoreCase(CountryName.USA.toCode())){
-                    countryName = CountryName.USA.toString();
-                }
-
-                if (countryCode.equalsIgnoreCase(CountryName.CHI.toCode())){
-                    countryName = CountryName.CHI.toString();
-                }
-
-                if (countryCode.equalsIgnoreCase(CountryName.IND.toCode())){
-                    countryName = CountryName.IND.toString();
-                }
+                String countryName =  CountryName.getCountryName(countryCode);
                 User user2 = connect(senderId,countryName);
 
 

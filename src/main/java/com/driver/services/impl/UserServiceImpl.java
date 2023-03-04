@@ -22,53 +22,35 @@ public class UserServiceImpl implements UserService {
     CountryRepository countryRepository3;
 
     @Override
-    public User register(String username, String password, String countryName) throws Exception{
+    public User register(String username, String password, String countryName) throws Exception {
         User user = new User();
-        if(!countryName.equalsIgnoreCase("IND") && !countryName.equalsIgnoreCase("USA") && !countryName.equalsIgnoreCase("JPN")&& !countryName.equalsIgnoreCase("AUS")&& !countryName.equalsIgnoreCase("CHI")){
+
+        if (!CountryName.isValid(countryName)) {
             throw new Exception("Country not found");
         }
 
-            user.setUsername(username);
-            user.setPassword(password);
+        user.setUsername(username);
+        user.setPassword(password);
 
-            Country country = new Country();
-            //set attr. according to validation
-            if(countryName.equalsIgnoreCase("CHI")){
-                country.setCountryName(CountryName.CHI);
-                country.setCode(CountryName.CHI.toCode());
-            }
-
-            if(countryName.equalsIgnoreCase("USA")){
-                country.setCountryName(CountryName.USA);
-                country.setCode(CountryName.USA.toCode());
-            }
-
-            if(countryName.equalsIgnoreCase("IND")){
-                country.setCountryName(CountryName.IND);
-                country.setCode(CountryName.IND.toCode());
-            }
-            if(countryName.equalsIgnoreCase("AUA")){
-                country.setCountryName(CountryName.AUS);
-                country.setCode(CountryName.AUS.toCode());
-            }
-
-            if(countryName.equalsIgnoreCase("JPN")){
-                country.setCountryName(CountryName.JPN);
-                country.setCode(CountryName.JPN.toCode());
-            }
-
-            user.setConnected(false);
-            country.setUser(user);
-            user.setOriginalCountry(country);
-
-            User user1 = userRepository3.save(user);
+        Country country = new Country();
+        //set attr. according to validation
+        CountryName name = CountryName.valueOf(countryName.toUpperCase());
+            country.setCountryName(name);
+            country.setCode(name.toCode());
 
 
-            StringBuilder sb = new StringBuilder();
-            sb.append(country.getCode()).append(".").append(user1.getId());
-            user.setOriginalIp(sb.toString());
+        user.setConnected(false);
+        country.setUser(user);
+        user.setOriginalCountry(country);
 
-            userRepository3.save(user);
+        User user1 = userRepository3.save(user);
+
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(country.getCode()).append(".").append(user1.getId());
+        user.setOriginalIp(sb.toString());
+
+        userRepository3.save(user);
 
 
         return user;
