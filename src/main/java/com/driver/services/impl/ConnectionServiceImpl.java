@@ -29,7 +29,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             throw new Exception("Already connected");
         }
 
-        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toCode())){
+        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
             return user;
         }
         else {
