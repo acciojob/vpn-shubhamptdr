@@ -24,12 +24,10 @@ public class ConnectionServiceImpl implements ConnectionService {
         // fetch user
         User user = userRepository2.findById(userId).get();
 
-        //----
         if(user.getMaskedIp()!=null){
             throw new Exception("Already connected");
         }
-
-        if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
+        else if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
             return user;
         }
         else {
@@ -38,7 +36,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             }
 
             List<ServiceProvider> serviceProviderList = user.getServiceProviderList();
-            int max = Integer.MAX_VALUE;
+            int a = Integer.MAX_VALUE;
             ServiceProvider serviceProvider = null;
             Country country =null;
 
@@ -48,33 +46,31 @@ public class ConnectionServiceImpl implements ConnectionService {
 
                 for (Country country1: countryList){
 
-                    if(countryName.equalsIgnoreCase(country1.getCountryName().toCode()) && max > serviceProvider1.getId() ){
-                        country = country1;
-                        max = serviceProvider1.getId();
-                        serviceProvider = serviceProvider1;
+                    if(countryName.equalsIgnoreCase(country1.getCountryName().toString()) && a > serviceProvider1.getId() ){
+                        a=serviceProvider1.getId();
+                        serviceProvider=serviceProvider1;
+                        country=country1;
                     }
                 }
             }
             if (serviceProvider!=null){
-                // crete entity
                 Connection connection = new Connection();
-                connection.setServiceProvider(serviceProvider);
                 connection.setUser(user);
+                connection.setServiceProvider(serviceProvider);
 
-                String countryC = country.getCode();
+                String cc = country.getCode();
                 int givenId = serviceProvider.getId();
-                String mask = countryC+"."+givenId+"."+userId;
+                String mask = cc+"."+givenId+"."+userId;
 
                 user.setMaskedIp(mask);
                 user.setConnected(true);
-
-
                 user.getConnectionList().add(connection);
+
                 serviceProvider.getConnectionList().add(connection);
 
+                userRepository2.save(user);
                 serviceProviderRepository2.save(serviceProvider);
 
-                userRepository2.save(user);
             }
         }
         return user;
