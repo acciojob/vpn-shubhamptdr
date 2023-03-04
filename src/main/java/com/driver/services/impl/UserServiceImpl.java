@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
                 country.setCode(CountryName.JPN.toCode());
             }
 
+            user.setConnected(false);
             country.setUser(user);
             user.setOriginalCountry(country);
 

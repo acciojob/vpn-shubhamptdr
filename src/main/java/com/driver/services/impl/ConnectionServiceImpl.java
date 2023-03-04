@@ -88,8 +88,8 @@ public class ConnectionServiceImpl implements ConnectionService {
             throw new Exception("Already disconnected");
         }
 
-        user.setMaskedIp(null);
         user.setConnected(false);
+        user.setMaskedIp(null);
         //save user
         userRepository2.save(user);
         return user;
@@ -112,6 +112,7 @@ public class ConnectionServiceImpl implements ConnectionService {
                     countryName = CountryName.JPN.toString();
                 }
 
+
                 if (countryCode.equalsIgnoreCase(CountryName.AUS.toCode())){
                     countryName = CountryName.AUS.toString();
                 }
@@ -127,8 +128,8 @@ public class ConnectionServiceImpl implements ConnectionService {
                 if (countryCode.equalsIgnoreCase(CountryName.IND.toCode())){
                     countryName = CountryName.IND.toString();
                 }
-
                 User user2 = connect(senderId,countryName);
+
 
                 if (!user2.getConnected()){
                     throw new Exception("Cannot establish communication");
@@ -146,7 +147,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             String countryName = user1.getOriginalCountry().getCountryName().toString();
 
             User user2 =  connect(senderId,countryName);
-            if (user2.getConnected()){
+            if (!user2.getConnected()){
                 throw new Exception("Cannot establish communication");
             }
             else return user2;
