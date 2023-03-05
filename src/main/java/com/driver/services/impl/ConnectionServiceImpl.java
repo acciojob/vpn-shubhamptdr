@@ -59,12 +59,12 @@ public class ConnectionServiceImpl implements ConnectionService {
                 connection.setUser(user);
                 connection.setServiceProvider(serviceProvider);
 
-                String cc = country.getCode();
+                String countryC = country.getCode();
                 int givenId = serviceProvider.getId();
-                String mask = cc+"."+givenId+"."+userId;
+                String mask = countryC+"."+givenId+"."+userId;
 
-                user.setMaskedIp(mask);
                 user.setConnected(true);
+                user.setMaskedIp(mask);
                 user.getConnectionList().add(connection);
 
                 serviceProvider.getConnectionList().add(connection);
@@ -82,7 +82,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         User user = userRepository2.findById(userId).get();
 
         // --
-        if(user.getConnected()){
+        if(user.getConnected()==false){
             throw new Exception("Already disconnected");
         }
 
@@ -101,18 +101,18 @@ public class ConnectionServiceImpl implements ConnectionService {
             String str = user1.getMaskedIp();
             String countryCode = str.substring(0,3);
 
-            if(countryCode.equals(user.getOriginalCountry().getCode()))
+            if(countryCode.equals(user.getOriginalCountry().getCode())){
                 return user;
-            else {
-                String countryName =  CountryName.getCountryName(countryCode);
-                User user2 = connect(senderId,countryName);
-
-
-                if (!user2.getConnected()){
-                    throw new Exception("Cannot establish communication");
-                }
-                else return user2;
             }
+
+            String countryName =  CountryName.getCountryName(countryCode);
+            User user2 = connect(senderId,countryName);
+
+
+            if (!user2.getConnected()){
+                throw new Exception("Cannot establish communication");
+            }
+            return user2;
 
         }
         else{
