@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
         Country country = new Country();
         //set attr. according to validation
         CountryName name = CountryName.valueOf(countryName.toUpperCase());
-            country.setCountryName(name);
-            country.setCode(name.toCode());
+        country.setCountryName(name);
+        country.setCode(name.toCode());
 
 
         user.setConnected(false);
@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
         user.setOriginalIp(sb.toString());
 
         userRepository3.save(user);
-
 
         return user;
     }

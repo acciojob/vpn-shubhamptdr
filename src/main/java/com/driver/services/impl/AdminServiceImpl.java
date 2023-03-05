@@ -53,7 +53,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ServiceProvider addCountry(int serviceProviderId, String countryName) throws Exception {
 
-
         if (!CountryName.isValid(countryName)) {
             throw new Exception("Country not found");
         }
