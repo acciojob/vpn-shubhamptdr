@@ -40,18 +40,23 @@ public class UserServiceImpl implements UserService {
 //        country.setCode(name.toCode());
 
         Country country = countryRepository3.findByCountryName(countryName);
+        if (country == null) {
+            throw new Exception("Country not found");
+        }
 
         user.setConnected(false);
         country.setUser(user);
         user.setOriginalCountry(country);
 
+
         User user1 = userRepository3.save(user);
 
-
+        // set originalIp i.e "countryCode.userId";
         StringBuilder sb = new StringBuilder();
         sb.append(country.getCode()).append(".").append(user1.getId());
         user.setOriginalIp(sb.toString());
 
+        //update repo
         userRepository3.save(user);
 
         return user;

@@ -24,7 +24,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         // fetch user
         User user = userRepository2.findById(userId).get();
 
-        if(user.getMaskedIp()!=null){
+        if(user.getConnected()){
             throw new Exception("Already connected");
         }
 
