@@ -33,16 +33,14 @@ public class UserServiceImpl implements UserService {
         user.setUsername(username);
         user.setPassword(password);
 
-//        Country country = new Country();
-//        //set attr. according to validation
-//        CountryName name = CountryName.valueOf(countryName.toUpperCase());
-//        country.setCountryName(name);
-//        country.setCode(name.toCode());
+        // create Country entity
+        Country country = new Country();
+        //set attr. according to validation
+        CountryName name = CountryName.valueOf(countryName.toUpperCase());
+        country.setCountryName(name);
+        country.setCode(name.toCode());
 
-        Country country = countryRepository3.findByCountryName(countryName);
-        if (country == null) {
-            throw new Exception("Country not found");
-        }
+//        Country country = countryRepository3.findByCountryName(countryName);
 
         user.setConnected(false);
         country.setUser(user);
