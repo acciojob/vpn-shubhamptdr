@@ -23,21 +23,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(String username, String password, String countryName) throws Exception {
-        User user = new User();
-
+        //check validation
         if (!CountryName.isValid(countryName)) {
             throw new Exception("Country not found");
         }
 
+        // create user Entity
+        User user = new User();
         user.setUsername(username);
         user.setPassword(password);
 
-        Country country = new Country();
-        //set attr. according to validation
-        CountryName name = CountryName.valueOf(countryName.toUpperCase());
-        country.setCountryName(name);
-        country.setCode(name.toCode());
+//        Country country = new Country();
+//        //set attr. according to validation
+//        CountryName name = CountryName.valueOf(countryName.toUpperCase());
+//        country.setCountryName(name);
+//        country.setCode(name.toCode());
 
+        Country country = countryRepository3.findByCountryName(countryName);
 
         user.setConnected(false);
         country.setUser(user);
@@ -65,7 +67,7 @@ public class UserServiceImpl implements UserService {
         user.getServiceProviderList().add(serviceProvider);
         serviceProvider.getUsers().add(user);
 
-        //save
+        //save parent
         serviceProviderRepository3.save(serviceProvider);
         return user;
     }

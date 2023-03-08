@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin register(String username, String password) {
-        // create amdin entity
+        // create admin entity
         Admin admin = new Admin();
         admin.setUsername(username);
         admin.setPassword(password);
@@ -57,17 +57,18 @@ public class AdminServiceImpl implements AdminService {
             throw new Exception("Country not found");
         }
 
-        // create county entity
-        Country country = new Country();
         // fetch
         ServiceProvider serviceProvider = serviceProviderRepository1.findById(serviceProviderId).get();
+        // create county entity
+        Country country = new Country();
 
-        // set according validation
+        // set attr.
         CountryName name = CountryName.valueOf(countryName.toUpperCase());
         country.setCountryName(name);
         country.setCode(name.toCode());
         country.setServiceProvider(serviceProvider);
         serviceProvider.getCountryList().add(country);
+        // save parent
         serviceProviderRepository1.save(serviceProvider);
 
         return serviceProvider;
